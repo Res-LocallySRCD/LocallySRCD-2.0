@@ -21,11 +21,7 @@ mainController.getResults = (req, res, next) => {
       const reducedResults = response.jsonBody.businesses.reduce(
         (acc, cv, idx) => {
           // checking if the results arr of obj's id matches the closed store's arr of obj's id
-<<<<<<< HEAD
-          // let storeIdVal = cv.id;
-=======
           let storeIdVal = cv.id;
->>>>>>> f78756143646a707914008d8b2c03e8f42ed5ecc
           // if (res.locals.closedStoresList.hasOwnProperty(storeIdVal)) {
           //   counter++;
           //   return acc;

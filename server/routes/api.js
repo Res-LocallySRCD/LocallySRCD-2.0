@@ -10,11 +10,7 @@ router.post("/report", mainController.reportClosed, (req, res) => {
 });
 
 router.post(
-<<<<<<< HEAD
-  '/',
-=======
   "/",
->>>>>>> f78756143646a707914008d8b2c03e8f42ed5ecc
   // mainController.getClosedStores,
   mainController.getResults,
   (req, res) => {
