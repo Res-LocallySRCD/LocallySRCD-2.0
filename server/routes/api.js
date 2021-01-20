@@ -11,7 +11,7 @@ router.post('/report', mainController.reportClosed, (req, res) => {
 
 router.post(
   '/',
-  mainController.getClosedStores,
+  // mainController.getClosedStores,
   mainController.getResults,
   (req, res) => {
     console.log('back in api.js'),

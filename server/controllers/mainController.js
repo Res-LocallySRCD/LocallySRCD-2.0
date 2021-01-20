@@ -21,11 +21,11 @@ mainController.getResults = (req, res, next) => {
       const reducedResults = response.jsonBody.businesses.reduce(
         (acc, cv, idx) => {
           // checking if the results arr of obj's id matches the closed store's arr of obj's id
-          let storeIdVal = cv.id;
-          if (res.locals.closedStoresList.hasOwnProperty(storeIdVal)) {
-            counter++;
-            return acc;
-          }
+          // let storeIdVal = cv.id;
+          // if (res.locals.closedStoresList.hasOwnProperty(storeIdVal)) {
+          //   counter++;
+          //   return acc;
+          // }
 
           // delete irrelevant key val pairs from yelp's API response
           if (idx < 10 + counter) {
