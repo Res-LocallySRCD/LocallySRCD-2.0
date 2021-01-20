@@ -1,21 +1,25 @@
-const path = require('path');
+const path = require("path");
 // importing express here 👇
-const express = require('express');
+const express = require("express");
 const app = express();
 const PORT = 3000; // this is your port 👈
+const passport = require("passport");
+const cookieSession = require("cookie-session");
+require("./controllers/googleCredentials");
 
 // requiring mongoose
-const mongoose = require('mongoose');
-const { MongoURI } = require('./settings')
+const mongoose = require("mongoose");
+const { MongoURI } = require("./settings");
 
 // requiring routers here
-const apiRouter = require('./routes/api.js');
-const signupRouter = require('./routes/signup.js');
-const loginRouter = require('./routes/login.js');
+const apiRouter = require("./routes/api.js");
+const signupRouter = require("./routes/signup.js");
+const loginRouter = require("./routes/login.js");
+const googleRouter = require("./routes/google");
 
 mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once('open', () => {
-  console.log('connected to our DB!');
+mongoose.connection.once("open", () => {
+  console.log("connected to our DB!");
 });
 
 // parsing any JSON body we get first
@@ -31,33 +35,44 @@ app.use((req, res, next) => {
   return next();
 });
 
+app.use(
+  cookieSession({
+    name: "LocallySRCD",
+    keys: ["key1", "key2"],
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // route handlers here 🤹
-app.use('/api', apiRouter);
-app.use('/signup', signupRouter);
-app.use('/login', loginRouter);
+app.use("/api", apiRouter);
+app.use("/signup", signupRouter);
+app.use("/login", loginRouter);
+app.use("/google", googleRouter);
 
 /*** MAIN PAGE ***/
 
 // directs the request to the assets folder for images
-app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
+app.use("/assets", express.static(path.join(__dirname, "../client/assets")));
 // for the devServer
-app.use('/dist', express.static(path.join(__dirname, '../dist')));
+app.use("/dist", express.static(path.join(__dirname, "../dist")));
 
-app.get('/', (req, res) => {
-  return res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
+app.get("/", (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, "../client/index.html"));
 });
 
 // catch all
-app.use('*', (req, res, next) => {
+app.use("*", (req, res, next) => {
   return res.status(404).send("This is not the page you're looking for...");
 });
 
 // global error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
+    log: "Express error handler caught unknown middleware error",
     status: 400,
-    message: { err: 'Interval Server Error' },
+    message: { err: "Interval Server Error" },
   };
 
   const errorObj = Object.assign(defaultErr, err);
