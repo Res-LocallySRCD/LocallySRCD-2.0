@@ -1,4 +1,4 @@
-const dbHandler = require('./db-handler.js');
+const dbHandler = require('../server/db-handler.js');
 const ClosedStore = require('../server/models/closedStoreModel.js');
 const User = require('../server/models/userModel.js');
 

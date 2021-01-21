@@ -1,5 +1,5 @@
-const dbHandler = require('./db-handler.js');
-const ClosedStore = require('../server/models/closedStoreModel.js');
+const dbHandler = require('../server/db-handler.js');
+const ClosedStores = require('../server/models/closedStoreModel.js');
 const mainController = require('../server/controllers/mainController.js');
 
 // Connect to a new in-memory database before running any tests
@@ -27,7 +27,7 @@ describe('mainController unit tests', () => {
     }
     const mockFunc = jest.fn();
 
-    await ClosedStore.create(mockStore);
+    await ClosedStores.create(mockStore);
     await mainController.getClosedStores(mockReq, mockRes, mockFunc);
     expect(mockRes.locals.closedStoresList).toEqual({ [mockStore.storeId]: true });
     done();
@@ -69,7 +69,7 @@ describe('mainController unit tests', () => {
     const mockFunc = jest.fn();
 
     await mainController.reportClosed(mockReq, mockRes, mockFunc);
-    const result = await ClosedStore.find({ storeId: mockReq.body.storeId });
+    const result = await ClosedStores.find({ storeId: mockReq.body.storeId });
     expect(result).toHaveLength(1);
     expect(result[0].storeId).toBe(mockReq.body.storeId);
     done();

@@ -7,10 +7,25 @@ const router = express.Router();
 
 router.post("/report",
   mainController.reportClosed,
-  (req, res) => {
-    res.status(200).send({ closedStoreId: res.locals.closedStoreId });
+  async (req, res) => {
+    return res.status(200).send({ closedStoreId: res.locals.closedStoreId });
   }
 );
+
+// dummy route for testing in apiRoute.test.js
+// router.get("/test",
+//   async (req, res) => {
+//     return res.status(200).json({ message: 'Passed' });
+//   }
+// )
+
+// dummy route for testing in apiRoute.test.js
+// router.post("/testing",
+//   async (req, res) => {
+//     console.log('req.body in post /testing:', req.body);
+//     return res.status(200).json(req.body);
+//   }
+// )
 
 router.post("/",
   mainController.getClosedStores,

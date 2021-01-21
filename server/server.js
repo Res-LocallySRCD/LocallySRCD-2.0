@@ -2,26 +2,16 @@ const path = require("path");
 // importing express here 👇
 const express = require("express");
 const app = express();
-const PORT = 3000; // this is your port 👈
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const cors = require("cors");
 require("./controllers/googleCredentials");
-
-// requiring mongoose
-const mongoose = require("mongoose");
-const { MongoURI } = require("./settings");
 
 // requiring routers here
 const apiRouter = require("./routes/api.js");
 const signupRouter = require("./routes/signup.js");
 const loginRouter = require("./routes/login.js");
 const googleRouter = require("./routes/google.js");
-
-mongoose.connect(MongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once("open", () => {
-  console.log("connected to our DB!");
-});
 
 // parsing any JSON body we get first
 app.use(express.json());
@@ -118,8 +108,7 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).send(errorObj.message);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: 🐼 ${PORT} 🐼`);
-});
+// app.listen moved to start.js file because when running tests, app.listen
+// needs to be run from the test file so there are no "port in use" conflicts
 
 module.exports = app;

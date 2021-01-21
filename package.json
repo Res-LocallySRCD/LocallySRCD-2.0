@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --runInBand ./__tests__",
-    "start": "NODE_ENV=production nodemon server/server.js",
+    "test": "cross-env NODE_ENV=test jest --runInBand ./__tests__",
+    "start": "cross-env NODE_ENV=production nodemon server/start.js",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open --hot\" \"nodemon server/server.js\""
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack serve --open --hot\" \"nodemon server/start.js\""
   },
   "jest": {
     "verbose": true,
@@ -50,6 +50,7 @@
     "jest": "^26.6.3",
     "mongodb-memory-server": "^6.9.3",
     "prop-types": "^15.7.2",
+    "supertest": "^6.1.1",
     "webpack": "^5.15.0",
     "webpack-cli": "^4.4.0",
     "webpack-dev-server": "^3.11.2"
