@@ -64,7 +64,9 @@ a {
     border-radius: 24px;
   }
   #logbutton:focus{
-    outline: none;
+    background-color: lighten($main-grey, 50%);
+    color: white;
+    cursor: pointer;
   }
 
   #logbutton:hover {
@@ -87,7 +89,6 @@ a {
   .loginput:focus{
     text-decoration: none;
     box-shadow: 1px 1px 5px #bbbbbb;
-    outline: none;
   }
   
   .loginput:hover{
@@ -106,7 +107,9 @@ a {
   }
   
   #signup:focus{
-    outline: none;
+    background-color: lighten($main-red, 20%);
+    color: white;
+    cursor: pointer;
   }
 
   #signup:hover {
