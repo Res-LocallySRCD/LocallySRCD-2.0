@@ -107,9 +107,11 @@ a {
   }
   
   #signup:focus{
+    box-shadow: 0 3px 2px 0 rgba(102, 101, 101, 0.24), 0 3px 2px 0 rgba(102, 101, 101, 0.24); 
     background-color: lighten($main-red, 20%);
     color: white;
-    cursor: pointer;
+    cursor: pointer;  
+    outline: none;
   }
 
   #signup:hover {
@@ -139,9 +141,7 @@ a {
   }
   
   .signupinput:focus{
-    text-decoration: none;
-    box-shadow: 1px 1px 5px #bbbbbb;
-    outline: none;
+    box-shadow: 0 3px 2px 0 rgba(102, 101, 101, 0.24), 0 3px 2px 0 rgba(102, 101, 101, 0.24);
   }
   
   .signupinput:hover{
@@ -161,13 +161,11 @@ a {
   }
 
   #signupformbtn:focus{
-    outline: none;
+    box-shadow: 0 3px 2px 0 rgba(102, 101, 101, 0.24), 0 3px 2px 0 rgba(102, 101, 101, 0.24);
   }
 
   #signupformbtn:hover {
-    background-color: lighten($main-red, 20%);
-    color: white;
-    cursor: pointer;
+    box-shadow: 0 3px 2px 0 rgba(102, 101, 101, 0.24), 0 3px 2px 0 rgba(102, 101, 101, 0.24);
   }
 
 }

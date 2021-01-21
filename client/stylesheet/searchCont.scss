@@ -6,6 +6,10 @@
   height: 60px;
   width: 600px;
   margin: 50px 10px;
+  font-family: 'Fredoka One';
+  font-size: 18px;
+  color: rgb(104, 99, 99);
+  text-align: center;
 }
 
 #searchInput {
@@ -18,14 +22,11 @@
 }
 
 #searchInput:focus{
-  text-decoration: none;
-  box-shadow: 1px 1px 5px #bbbbbb;
-  outline: none;
+  box-shadow: 1px 1px 5px #bbbbbb; 
 }
 
 
 #searchInput:hover{
-  text-decoration: none;
   box-shadow: 1px 1px 5px #bbbbbb;
   
 }
@@ -46,5 +47,5 @@
 }
 
 #searchButton:focus {
-  outline: none;
+  box-shadow: 1px 1px 5px #bbbbbb;
 }

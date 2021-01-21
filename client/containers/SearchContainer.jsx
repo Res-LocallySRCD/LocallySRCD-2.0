@@ -9,6 +9,7 @@ const SearchContainer = ({ searchButtonHandler }) => {
         id="searchInput"
         type="text"
         placeholder="enter keyword here"
+        aria-label="Search"
       ></input>
       <button
         id="searchButton"

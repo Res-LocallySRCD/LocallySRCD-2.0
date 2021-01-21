@@ -10,7 +10,7 @@ class TopCategoriesContainer extends Component {
         ['Treats', 'bakery'],
         ['Sporty Goods', 'sporting goods'],
         ['Health', 'health'],
-        ['Furry Friends', 'pets'],
+        ['Cats, Dogs, Pandas', 'pets'],
         ['Dining', 'restaurants'],
         ['Home Life', 'plants'],
         ['Clothing', 'fashion'],
