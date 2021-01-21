@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Route, BrowserRouter as Router, Switch, Link } from 'react-router-dom';
-import NavBar from './components/NavBar.jsx';
-import './stylesheet/styles.scss';
+import React, { Component } from "react";
+import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import NavBar from "./components/NavBar.jsx";
+import "./stylesheet/styles.scss";
 
 // Routers here
-import Home from './pages/Home.jsx';
+import Home from "./pages/Home.jsx";
 
 class App extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class App extends Component {
       isLoggedIn: false,
       preferredLocations: null, // preferredLocations: object with keys as the placeIDs and values of true; -> will be created when client receive user info after user logins
       closedLocations: null, // closed locations: object with keys as the placeIDs and values of true; -> will be created when client receives results back from fetch request
-      fetchTerm: '',
+      fetchTerm: "",
       signUpPop: false,
       closedStoreId: null,
       //longitude: number -> will be created after component mounts
@@ -30,7 +30,7 @@ class App extends Component {
     this.signUpButtonHandler = this.signUpButtonHandler.bind(this);
     this.createUser = this.createUser.bind(this);
     this.reportClosed = this.reportClosed.bind(this);
-
+    this.signInWithGoogleHandler = this.signInWithGoogleHandler.bind(this);
   }
 
   updateUserCoordinates(latitude, longitude) {
@@ -50,10 +50,10 @@ class App extends Component {
   categoryButtonHandler(event) {
     event.preventDefault();
     const term = event.target.value;
-    fetch('/api', {
-      method: 'POST',
+    fetch("/api", {
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify({
         latitude: this.state.latitude,
@@ -63,7 +63,7 @@ class App extends Component {
     })
       .then((data) => data.json())
       .then((data) => {
-        console.log('data back from category ', data)
+        console.log("data back from category ", data);
         this.setState((prevState) => {
           const newState = { ...prevState };
           newState.results = data.results;
@@ -76,10 +76,14 @@ class App extends Component {
   }
 
   searchButtonHandler(term) {
-    fetch('/api', {
-      method: 'POST',
+    console.log(
+      "the local storage from before we set up the click is: ",
+      localStorage.getItem("didThisWork")
+    );
+    fetch("/api", {
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify({
         latitude: this.state.latitude,
@@ -98,16 +102,101 @@ class App extends Component {
         });
       })
       .catch((err) => console.log(err));
-      const search = document.getElementById('searchInput');
-      search.value = '';
+    const search = document.getElementById("searchInput");
+    search.value = "";
   }
 
   // event handler for when user hits log in button
   logInSubmitHandler(username, password) {
-    fetch('/login', {
-      method: 'POST',
+    fetch("/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+        this.setState((prevState) => {
+          const newState = { ...prevState };
+          newState.user = data;
+          newState.isLoggedIn = true;
+          newState.preferredLocations = data.prefLocations;
+          return newState;
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  //event handler when sign in with google is clicked:
+  signInWithGoogleHandler(event) {
+    // fetch("/google")
+    //   .then((data) => data.json())
+    //   .then((data) => {
+    //     console.log(data);
+    //     // this.setState((prevState) => {
+    //     //   const newState = { ...prevState };
+    //     //   newState.user = data;
+    //     //   newState.isLoggedIn = true;
+    //     //   newState.preferredLocations = data.prefLocations;
+    //     //   return newState;
+    //     // });
+    //   })
+    //   .catch((err) => console.log(err));
+    fetch("/login")
+      .then((data) => data.json())
+      .then((data) => {
+        console.log(data);
+        this.setState((prevState) => {
+          const newState = { ...prevState };
+          newState.user = data;
+          newState.isLoggedIn = true;
+          newState.preferredLocations = data.prefLocations;
+          return newState;
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  // event handler when log out button is clicked
+  logoutHandler() {
+    fetch("/logout", {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/JSON",
+      },
+    })
+      .then(() => {
+        this.setState((prevState) => {
+          const newState = { ...prevState };
+          newState.user = null;
+          newState.preferredLocations = null;
+          newState.isLoggedIn = false;
+          newState.results = null;
+          return newState;
+        });
+      })
+      .catch((err) => console.log(err));
+  }
+
+  signUpButtonHandler() {
+    this.setState((prevState) => {
+      const newState = { ...prevState };
+      newState.signUpPop = true;
+      return newState;
+    });
+  }
+
+  // event handler to when user clicks sign up button
+  createUser(username, password) {
+    fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify({
         username: username,
@@ -118,69 +207,24 @@ class App extends Component {
       .then((data) => {
         this.setState((prevState) => {
           const newState = { ...prevState };
-          newState.user = data.username
+          newState.user = data.username;
           newState.isLoggedIn = true;
+          newState.signUpPop = false;
           newState.preferredLocations = data.prefLocations;
           return newState;
         });
       })
       .catch((err) => console.log(err));
   }
-  
-  // event handler when log out button is clicked
-  logoutHandler() { 
-    this.setState((prevState) => {
-      const newState = { ...prevState }
-      newState.user = null;
-      newState.preferredLocations = null;
-      newState.isLoggedIn = false;
-      newState.results = null;
-      return newState;
-    });
-  }
- 
-  signUpButtonHandler() {
-    this.setState((prevState) => {
-      const newState = { ...prevState };
-      newState.signUpPop = true;
-      return newState;
-    });
-  }
-  
-  // event handler to when user clicks sign up button
-  createUser(username, password) {
-    fetch('/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
-    })
-    .then((data) => data.json())
-    .then((data) => {
-      this.setState((prevState) => {
-        const newState = { ...prevState };
-        newState.user = data.username
-        newState.isLoggedIn = true;
-        newState.signUpPop = false;
-        newState.preferredLocations = data.prefLocations;
-        return newState;
-      });
-    })
-    .catch((err) => console.log(err));
-  }
 
   // event handler for user to report location closed
   reportClosed(event) {
     event.preventDefault();
     const closed = event.target.value;
-    fetch('/api/report', {
-      method: 'POST',
+    fetch("/api/report", {
+      method: "POST",
       headers: {
-        'Content-Type': 'Application/JSON',
+        "Content-Type": "Application/JSON",
       },
       body: JSON.stringify({
         latitude: this.state.latitude,
@@ -191,7 +235,7 @@ class App extends Component {
     })
       .then((data) => data.json())
       .then((data) => {
-        console.log('data back from category ', data)
+        console.log("data back from category ", data);
         this.setState((prevState) => {
           const newState = { ...prevState };
           newState.closedStoreId = data.closedStoreId;
@@ -209,10 +253,27 @@ class App extends Component {
     };
 
     navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
+    if (localStorage.getItem("didThisWork") === "yes") {
+      localStorage.setItem("didThisWork", "no");
+      // console.log("hh");
+      fetch("/login")
+        .then((data) => data.json())
+        .then((data) => {
+          // console.log("this is the data", data);
+          this.setState((prevState) => {
+            const newState = { ...prevState };
+            newState.user = data;
+            newState.isLoggedIn = true;
+            newState.preferredLocations = data.prefLocations;
+            return newState;
+          });
+        })
+        .catch((err) => console.log(err));
+    }
   }
 
   componentDidUpdate() {
-    console.log('State updated: ', this.state);
+    console.log("State updated: ", this.state);
   }
 
   render() {
@@ -220,24 +281,25 @@ class App extends Component {
     return (
       <Router>
         <div className="appHeader">
-          <Link to="/"> 
+          <Link to="/">
             <img
               id="logo"
               src="./assets/locallysrcdlogo.png"
               alt="Locally SRCD Logo"
-              height='150px'
-              width='150px'
+              height="150px"
+              width="150px"
             ></img>
           </Link>
-          <NavBar 
-            userName={this.state.user} 
+          <NavBar
+            userName={this.state.user}
             signUpPop={this.state.signUpPop}
-            userStatus={this.state.isLoggedIn} 
-            logInSubmitHandler={this.logInSubmitHandler} 
-            logoutHandler={this.logoutHandler} 
+            userStatus={this.state.isLoggedIn}
+            logInSubmitHandler={this.logInSubmitHandler}
+            logoutHandler={this.logoutHandler}
             signUpButtonHandler={this.signUpButtonHandler}
             createUser={this.createUser}
-            />
+            signInWithGoogleHandler={this.signInWithGoogleHandler}
+          />
         </div>
 
         <Switch>
@@ -260,17 +322,6 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
 
 /*      original React Router Approach      
 <Router>

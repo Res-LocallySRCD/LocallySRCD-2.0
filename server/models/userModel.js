@@ -1,19 +1,23 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const findOrCreate = require("mongoose-findorcreate");
 
 // require bcrypt and use it to encrypt the
 const SALT_WORK_FACTOR = 5;
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 const userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  prefLocations: { type: Array, required: true },
+  lastGoogleSignIn: { type: Number },
+  prefLocations: { type: Array },
 });
 
-userSchema.pre('save', function (next) {
+userSchema.plugin(findOrCreate);
+
+userSchema.pre("save", function (next) {
   const user = this;
-  if (!user.isModified('password')) return next();
+  if (!user.isModified("password")) return next();
 
   bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
     if (err) return next(err);
@@ -25,4 +29,4 @@ userSchema.pre('save', function (next) {
   });
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

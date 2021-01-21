@@ -1,20 +1,22 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './client/index.js',
+  entry: "./client/index.js",
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    filename: 'bundle.js',
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "/dist/",
+    filename: "bundle.js",
   },
   mode: process.env.NODE_ENV,
   devServer: {
-    publicPath: '/dist/',
+    publicPath: "/dist/",
     proxy: {
-      '/': 'http://localhost:3000',
-      '/signup/**': 'http://localhost:3000',
-      '/login/**': 'http://localhost:3000',
-      '/favorites/**': 'http://localhost:3000',
+      "**": "http://localhost:3000",
+      "/google/": "http:localhost:3000",
+      "/auth/google/": "http:localhost:3000",
+      "/signup/**": "http://localhost:3000",
+      "/login/**": "http://localhost:3000",
+      "/favorites/**": "http://localhost:3000",
     },
     hot: true,
   },
@@ -23,9 +25,9 @@ module.exports = {
       {
         test: /.(js|jsx)$/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
+            presets: ["@babel/preset-env", "@babel/preset-react"],
           },
         },
         exclude: /node_modules/,
@@ -33,13 +35,13 @@ module.exports = {
       {
         // 🐼
         test: /\.s[ac]ss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },

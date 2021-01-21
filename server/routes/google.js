@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+
 require("../controllers/googleCredentials");
 
 const isLoggedIn = (req, res, next) => {
@@ -13,14 +14,20 @@ const isLoggedIn = (req, res, next) => {
 
 router.get(
   "/",
+  // googleController.login,
   passport.authenticate("google", { scope: ["profile", "email"] })
+  // (req, res) => {
+  //   res.status(200).json({ msg: "working" });
+  // }
 );
 
 router.get(
   "/callback",
+
   passport.authenticate("google", { failureRedirect: "/failed" }),
   function (req, res) {
     //Successful auth, redirect home
+
     res.redirect("/");
   }
 );
@@ -33,8 +40,9 @@ router.get("/logout", (req, res) => {
 
 router.get("/failed", (req, res) => res.send("You failed to login!"));
 router.get("/good", isLoggedIn, (req, res) => {
-  console.log(req.user);
-  res.send(`Welcome mr ${req.user.displayName}`);
+  // res.redirect("/");
+  // console.log("THIS IS REQ . USER!!!", req.user);
+  // res.status(200).send(req.user.displayName);
 });
 
 module.exports = router;
