@@ -4,7 +4,7 @@
   align-items: center;
   margin-top: 2em;
   padding-top: 5px;
-  //text-align: center;
+  text-align: center;
 
   p {
     font-family: 'Fredoka One';
@@ -42,6 +42,6 @@
 }
 
 .TopCateButton:focus {
-  outline: none;
+  box-shadow: 0 3px 2px 0 rgba(102, 101, 101, 0.24), 0 3px 2px 0 rgba(102, 101, 101, 0.24);
 }
 
