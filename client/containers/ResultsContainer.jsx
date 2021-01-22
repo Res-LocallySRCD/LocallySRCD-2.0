@@ -13,7 +13,8 @@ const ResultsContainer = ({ results, preferredLocations, closedLocations, report
   } else {
     results.forEach(
       (rec, i) => {
-        const { id } = rec;
+        const { id, name } = rec;
+
         // if (id !== closedStoreId) {
         // check if the location is open & user is using account
         //if (!closedLocations[id] && preferredLocations){
@@ -22,7 +23,7 @@ const ResultsContainer = ({ results, preferredLocations, closedLocations, report
         // checking if location is the user's preferred location
         //preferredLocations[id] ? isFav = true : isFav = false;
 
-        recs.push(<ResultCard closedStoreId={closedStoreId} reportClosed={reportClosed} key={i} info={rec} isFav={isFav} />);
+        recs.push(<ResultCard closedStoreId={closedStoreId} reportClosed={reportClosed} key={i} aria-label={name} info={rec} isFav={isFav} />);
       }
       // }
     );

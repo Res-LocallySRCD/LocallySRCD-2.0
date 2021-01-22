@@ -59,9 +59,24 @@ const NavBar = ({
             localStorage.setItem("didThisWork", "yes");
             // signInWithGoogleHandler();
           }}
-        >
-          <span>
-            <a href="/google">Google</a>
+        style={{
+          border: "none",
+          padding: 0,
+          marginTop: 10,
+          marginLeft: 523,
+          backgroundColor: "white",
+        }}
+      >
+        <span>
+          <a href="/google">
+            <img
+              src="../assets/btn_google_signin_light_focus_web.png"
+              style={{
+                borderRadius: 100,
+                border: "1px solid grey",
+              }}
+            ></img>
+          </a>
           </span>
         </button>
       </div>
@@ -75,6 +90,7 @@ const NavBar = ({
           <div>
             <input
               className="signupinput"
+              aria-label="username"
               id="userName"
               type="text"
               placeholder="username"
@@ -83,6 +99,7 @@ const NavBar = ({
           <div>
             <input
               className="signupinput"
+              aria-label="password"
               id="passWord"
               type="password"
               placeholder="password"

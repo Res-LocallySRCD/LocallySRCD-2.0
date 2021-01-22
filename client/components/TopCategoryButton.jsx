@@ -10,7 +10,7 @@ class TopCategoriesButton extends Component {
       'Treats': '../assets/icecream.png',
       'Sporty Goods': '../assets/sportsgood.png',
       'Health': '../assets/health.png',
-      'Furry Friends': '../assets/furryfriends.png',
+      'Cats, Dogs, Pandas': '../assets/furryfriends.png',
       'Dining': '../assets/taco.png',
       'Home Life': '../assets/plants.png',
       'Clothing': '../assets/shirt.png',
@@ -41,7 +41,7 @@ class TopCategoriesButton extends Component {
    return ( 
 
    <div className="buttons">
-     <button className='TopCateButton' value={categoryKey} style={style} onClick={(event) => catBtnHandler(event, categoryKey)}>
+     <button className='TopCateButton' aria-label={categoryKey} value={categoryKey} style={style} onClick={(event) => catBtnHandler(event, categoryKey)}>
      </button>
      <p>{this.props.categoryStr} </p>
     </div>
